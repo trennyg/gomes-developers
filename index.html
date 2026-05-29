@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gomes Developer's – Construction & Redevelopment</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Pinyon+Script&family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --gold: #b08850;
+      --gold-light: #c8936a;
+      --dark: #1c1a1a;
+      --darker: #141212;
+      --card-bg: #232020;
+      --text: #f0ece4;
+      --muted: #9a9488;
+      --white: #ffffff;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--darker);
+      color: var(--text);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: linear-gradient(to bottom, rgba(20,18,18,0.98), transparent);
+      transition: background 0.4s;
+    }
+    nav.scrolled { background: rgba(20,18,18,0.98); border-bottom: 1px solid rgba(176,136,80,0.15); }
+
+    /* NAV LOGO — replicates the designed card logo inline */
+    .nav-logo { text-decoration: none; display: flex; align-items: center; gap: 12px; }
+    .nav-logo-mark {
+      position: relative;
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-logo-mark svg { width: 48px; height: 48px; overflow: visible; }
+    .nav-logo-text { display: flex; flex-direction: column; }
+    .nav-logo-name {
+      font-family: 'Pinyon Script', cursive;
+      font-size: 1.1rem; color: var(--gold-light);
+      letter-spacing: 1px; line-height: 1;
+    }
+    .nav-logo-sub {
+      font-size: 0.5rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--muted); font-weight: 500; margin-top: 3px;
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--text);
+      font-size: 0.68rem; letter-spacing: 2.5px; text-transform: uppercase;
+      font-weight: 500; opacity: 0.8; transition: opacity 0.2s, color 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--gold-light); }
+    .nav-cta {
+      border: 1px solid var(--gold); color: var(--gold);
+      padding: 0.5rem 1.4rem; font-size: 0.62rem; letter-spacing: 2px;
+      text-transform: uppercase; text-decoration: none; font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--darker); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; height: 100vh; min-height: 700px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(20,18,18,0.25) 0%, rgba(20,18,18,0.55) 55%, rgba(20,18,18,1) 100%),
+        repeating-linear-gradient(45deg, rgba(176,136,80,0.03) 0px, rgba(176,136,80,0.03) 1px, transparent 1px, transparent 60px),
+        linear-gradient(135deg, #1a1818 0%, #2a2525 40%, #1c1919 100%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0; overflow: hidden; opacity: 0.12;
+    }
+    .hero-grid::before, .hero-grid::after {
+      content: ''; position: absolute; left: 50%; top: 50%;
+      width: 900px; height: 900px; margin-left: -450px; margin-top: -450px;
+      border: 1px solid var(--gold); border-radius: 50%;
+      animation: pulse-ring 7s ease-out infinite;
+    }
+    .hero-grid::after { animation-delay: 3.5s; }
+    @keyframes pulse-ring {
+      0%   { transform: scale(0.3); opacity: 0.7; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center; padding: 0 2rem;
+      animation: fadeUp 1.2s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow {
+      font-size: 0.62rem; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 2rem; font-weight: 500;
+    }
+
+    /* ── HERO LOGO MARK (the designed interlocked GD) ── */
+    .hero-logo-wrap {
+      display: inline-block;
+      position: relative;
+      margin-bottom: 0.2rem;
+    }
+    .hero-logo-wrap svg {
+      width: clamp(220px, 36vw, 380px);
+      height: auto;
+      overflow: visible;
+    }
+
+    .hero-divider { width: 60px; height: 1px; background: var(--gold); margin: 1.6rem auto; }
+    .hero-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 300; color: var(--text); opacity: 0.8;
+      max-width: 500px; margin: 0 auto 2.5rem;
+      line-height: 1.8; letter-spacing: 0.5px;
+    }
+    .hero-btns { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--gold); color: var(--darker);
+      padding: 0.9rem 2.5rem; font-size: 0.62rem; letter-spacing: 3px;
+      text-transform: uppercase; font-weight: 600; text-decoration: none;
+      transition: background 0.3s; border: none; cursor: pointer;
+    }
+    .btn-primary:hover { background: var(--gold-light); }
+    .btn-secondary {
+      border: 1px solid rgba(176,136,80,0.5); color: var(--gold);
+      padding: 0.9rem 2.5rem; font-size: 0.62rem; letter-spacing: 3px;
+      text-transform: uppercase; font-weight: 500; text-decoration: none;
+      transition: border-color 0.3s, color 0.3s; background: none;
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold-light); }
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      font-size: 0.52rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--muted); animation: bounce 2.2s infinite;
+    }
+    .hero-scroll::after { content: ''; width: 1px; height: 38px; background: var(--gold); display: block; }
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(7px); }
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 7rem 4rem; }
+    .section-label {
+      font-size: 0.58rem; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem; font-weight: 500;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 400; line-height: 1.2;
+      color: var(--white); margin-bottom: 1.5rem;
+    }
+    .section-title em { font-style: italic; color: var(--gold-light); }
+    .section-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; line-height: 1.9;
+      color: var(--muted); max-width: 560px;
+    }
+    .gold-line { width: 50px; height: 1px; background: var(--gold); margin-bottom: 1.5rem; }
+
+    /* ── FOUNDER ── */
+    .founder-section {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+    }
+    .founder-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(176,136,80,0.2);
+      padding: 3rem; position: relative; overflow: hidden;
+    }
+    .founder-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%; background: var(--gold);
+    }
+    .founder-avatar {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(176,136,80,0.12);
+      border: 1px solid rgba(176,136,80,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; font-weight: 400; color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .founder-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 400; color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .founder-title {
+      font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem; font-weight: 500;
+    }
+    .founder-bio {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; line-height: 1.9; color: var(--muted);
+    }
+    .values-list { list-style: none; margin-top: 2rem; }
+    .values-list li {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(176,136,80,0.1);
+      font-size: 0.72rem; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--text); font-weight: 400;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .values-list li::before { content: ''; width: 20px; height: 1px; background: var(--gold); flex-shrink: 0; }
+
+    /* ── SERVICES ── */
+    .services-section { background: var(--card-bg); }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; margin-top: 3rem;
+    }
+    .service-item {
+      padding: 2.5rem 2rem;
+      border: 1px solid rgba(176,136,80,0.1);
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .service-item:hover { border-color: rgba(176,136,80,0.4); background: rgba(176,136,80,0.03); }
+    .service-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem; font-weight: 400;
+      color: rgba(176,136,80,0.15); line-height: 1; margin-bottom: 1.2rem;
+    }
+    .service-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 400; color: var(--white); margin-bottom: 0.8rem;
+    }
+    .service-desc { font-size: 0.75rem; line-height: 1.8; color: var(--muted); font-weight: 300; }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px; margin-top: 3rem;
+    }
+    .project-card {
+      position: relative; overflow: hidden;
+      background: var(--card-bg); aspect-ratio: 4/3; cursor: pointer;
+    }
+    .project-card.featured { grid-column: span 2; aspect-ratio: auto; min-height: 340px; }
+    .project-card-bg { position: absolute; inset: 0; transition: transform 0.6s ease; }
+    .project-card:hover .project-card-bg { transform: scale(1.06); }
+    .p1 .project-card-bg { background: linear-gradient(135deg, #2a2320 0%, #3d3025 100%); }
+    .p2 .project-card-bg { background: linear-gradient(135deg, #1e2428 0%, #263035 100%); }
+    .p3 .project-card-bg { background: linear-gradient(135deg, #23231e 0%, #333320 100%); }
+    .p4 .project-card-bg { background: linear-gradient(135deg, #28201e 0%, #3a2820 100%); }
+    .p5 .project-card-bg { background: linear-gradient(135deg, #1e2820 0%, #253528 100%); }
+    .project-pattern {
+      position: absolute; inset: 0; opacity: 0.06;
+      background-image:
+        repeating-linear-gradient(0deg, var(--gold) 0, var(--gold) 1px, transparent 0, transparent 40px),
+        repeating-linear-gradient(90deg, var(--gold) 0, var(--gold) 1px, transparent 0, transparent 40px);
+    }
+    .project-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(20,18,18,0.92) 0%, rgba(20,18,18,0.2) 60%, transparent 100%);
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 1.8rem;
+      transition: background 0.4s;
+    }
+    .project-card:hover .project-overlay { background: linear-gradient(to top, rgba(20,18,18,0.97) 0%, rgba(20,18,18,0.5) 80%, transparent 100%); }
+    .project-badge {
+      display: inline-block; background: rgba(176,136,80,0.15);
+      border: 1px solid rgba(176,136,80,0.3);
+      font-size: 0.5rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); padding: 0.25rem 0.6rem; margin-bottom: 0.6rem;
+      font-weight: 500; width: fit-content;
+    }
+    .project-type { font-size: 0.55rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 0.4rem; }
+    .project-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 400; color: var(--white); margin-bottom: 0.3rem; }
+    .project-loc { font-size: 0.6rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+    .project-arrow { margin-top: 1rem; font-size: 0.58rem; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; opacity: 0; transform: translateX(-8px); transition: opacity 0.3s, transform 0.3s; }
+    .project-card:hover .project-arrow { opacity: 1; transform: translateX(0); }
+
+    /* ── VISION STRIP ── */
+    .vision-strip {
+      text-align: center;
+      background: linear-gradient(135deg, #1c1a1a 0%, #252020 100%);
+      border-top: 1px solid rgba(176,136,80,0.15);
+      border-bottom: 1px solid rgba(176,136,80,0.15);
+    }
+    .vision-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      font-weight: 300; font-style: italic;
+      color: var(--text); max-width: 760px; margin: 0 auto; line-height: 1.7;
+    }
+    .vision-quote::before { content: '\201C'; color: var(--gold); font-size: 4rem; line-height: 0; vertical-align: -0.5em; margin-right: 0.2em; }
+    .vision-author { margin-top: 2rem; font-size: 0.58rem; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); }
+
+    /* ── CONTACT ── */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; }
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label { font-size: 0.52rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+    .form-input, .form-select, .form-textarea {
+      background: transparent; border: none;
+      border-bottom: 1px solid rgba(176,136,80,0.3);
+      color: var(--text); font-family: 'Montserrat', sans-serif;
+      font-size: 0.8rem; padding: 0.7rem 0; outline: none;
+      font-weight: 300; transition: border-color 0.3s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-bottom-color: var(--gold); }
+    .form-select option { background: var(--darker); }
+    .form-textarea { resize: none; min-height: 100px; }
+    .contact-info { display: flex; flex-direction: column; gap: 2.5rem; }
+    .contact-info-label { font-size: 0.52rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 0.5rem; }
+    .contact-info-value { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--text); line-height: 1.6; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--darker);
+      border-top: 1px solid rgba(176,136,80,0.15);
+      padding: 3rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-logo { font-family: 'Pinyon Script', cursive; font-size: 1.4rem; color: var(--gold-light); letter-spacing: 2px; }
+    .footer-copy { font-size: 0.58rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+    .footer-links { display: flex; gap: 2rem; list-style: none; }
+    .footer-links a { font-size: 0.58rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 1.5rem; }
+      .founder-section { grid-template-columns: 1fr; gap: 3rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card.featured { grid-column: span 1; min-height: 260px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">
+    <!-- Inline SVG replicating the designed interlocked GD logo -->
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="nav-cut">
+            <rect x="0" y="0" width="60" height="26"/>
+            <rect x="0" y="33" width="60" height="30"/>
+          </clipPath>
+          <clipPath id="nav-right">
+            <rect x="31" y="0" width="30" height="26"/>
+            <rect x="31" y="33" width="30" height="30"/>
+          </clipPath>
+        </defs>
+        <!-- D behind, silver -->
+        <text x="36" y="48" font-family="'Playfair Display',Georgia,serif" font-size="46" font-weight="400" fill="#a8a8a8" text-anchor="middle" clip-path="url(#nav-cut)">D</text>
+        <!-- G white, on top left -->
+        <text x="26" y="42" font-family="'Playfair Display',Georgia,serif" font-size="52" font-weight="400" fill="#ffffff" text-anchor="middle" clip-path="url(#nav-cut)">G</text>
+        <!-- D right side in front -->
+        <text x="36" y="48" font-family="'Playfair Display',Georgia,serif" font-size="46" font-weight="400" fill="#a8a8a8" text-anchor="middle" clip-path="url(#nav-right)">D</text>
+        <!-- Script through gap -->
+        <text x="30" y="31" font-family="'Pinyon Script',cursive" font-size="9" fill="#c8936a" text-anchor="middle" letter-spacing="0.5">Gomes Developer's</text>
+      </svg>
+    </div>
+    <div class="nav-logo-text">
+      <span class="nav-logo-name">Gomes Developer's</span>
+      <span class="nav-logo-sub">Construction &amp; Redevelopment</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="#contact">Enquire Now</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Mumbai · Construction &amp; Redevelopment</p>
+
+    <!-- THE DESIGNED LOGO — interlocked GD with script threading through -->
+    <div class="hero-logo-wrap">
+      <svg viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="hero-cut">
+            <rect x="0"   y="0"   width="340" height="96"/>
+            <rect x="0"   y="116" width="340" height="120"/>
+          </clipPath>
+          <clipPath id="hero-right">
+            <rect x="176" y="0"   width="164" height="96"/>
+            <rect x="176" y="116" width="164" height="120"/>
+          </clipPath>
+        </defs>
+        <!-- D behind, silver -->
+        <text x="196" y="175"
+          font-family="'Playfair Display',Georgia,serif"
+          font-size="178" font-weight="400"
+          fill="#a8a8a8" text-anchor="middle"
+          clip-path="url(#hero-cut)">D</text>
+        <!-- G white, higher and slightly left -->
+        <text x="158" y="148"
+          font-family="'Playfair Display',Georgia,serif"
+          font-size="178" font-weight="400"
+          fill="#ffffff" text-anchor="middle"
+          clip-path="url(#hero-cut)">G</text>
+        <!-- D right side comes in front of G -->
+        <text x="196" y="175"
+          font-family="'Playfair Display',Georgia,serif"
+          font-size="178" font-weight="400"
+          fill="#a8a8a8" text-anchor="middle"
+          clip-path="url(#hero-right)">D</text>
+        <!-- Pinyon Script threads through the cut band -->
+        <text x="170" y="110"
+          font-family="'Pinyon Script',cursive"
+          font-size="22" fill="#c8936a"
+          text-anchor="middle" letter-spacing="6">Gomes Developer's</text>
+      </svg>
+    </div>
+
+    <p style="font-size:0.6rem; letter-spacing:5px; text-transform:uppercase; color:var(--muted); margin-top:0.2rem;">Construction &nbsp;&middot;&nbsp; Redevelopment</p>
+    <div class="hero-divider"></div>
+    <p class="hero-desc">
+      A new name in Mumbai construction — built on passion, precision, and an uncompromising commitment to quality.
+    </p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="#services">Our Services</a>
+      <a class="btn-secondary" href="#contact">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- FOUNDER / ABOUT -->
+<section id="about">
+  <div class="founder-section">
+    <div>
+      <p class="section-label">Our Story</p>
+      <div class="gold-line"></div>
+      <h2 class="section-title">A Vision <em>Rooted<br>in Mumbai.</em></h2>
+      <p class="section-body">
+        Gomes Developer's was founded by Ralston Gomes with a simple belief — that every family in Mumbai 
+        deserves a home built with care, integrity, and craftsmanship. Starting with a deep understanding 
+        of Mumbai's construction landscape, we bring a fresh, committed approach to every project we undertake.
+      </p>
+      <ul class="values-list" style="margin-top:2.5rem;">
+        <li>Transparency in Every Step</li>
+        <li>Quality Without Compromise</li>
+        <li>On-Time Delivery</li>
+        <li>Client-First Approach</li>
+        <li>Trusted Across All of Mumbai</li>
+      </ul>
+    </div>
+    <div>
+      <div class="founder-card">
+        <div class="founder-avatar">RG</div>
+        <div class="founder-name">Ralston Gomes</div>
+        <div class="founder-title">Founder &amp; Director</div>
+        <p class="founder-bio">
+          With a hands-on approach to every project and a personal commitment to each client, 
+          Ralston Gomes established Gomes Developer's to bring a new standard of trust and excellence 
+          to Mumbai's construction and redevelopment sector. His vision: build homes that families 
+          are proud of for generations to come.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="services-section">
+  <p class="section-label">What We Do</p>
+  <div class="gold-line"></div>
+  <h2 class="section-title" style="max-width:500px;">Our <em>Services</em></h2>
+  <div class="services-grid">
+    <div class="service-item">
+      <div class="service-num">01</div>
+      <div class="service-name">Society Redevelopment</div>
+      <div class="service-desc">Complete redevelopment of co-operative housing societies — from legal approvals and temporary relocation through to handover of brand-new homes. Transparent, timely, and fully managed.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">02</div>
+      <div class="service-name">New Construction</div>
+      <div class="service-desc">From foundation to finish — residential and commercial structures built to the highest standards. Structural integrity, premium finishes, and on-schedule delivery, every time.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">03</div>
+      <div class="service-name">Project Consultation</div>
+      <div class="service-desc">Expert guidance for societies and landowners considering redevelopment. We assess feasibility, liaise with authorities, and help you make the right decision for your community.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">04</div>
+      <div class="service-name">Interior Fit-Outs</div>
+      <div class="service-desc">Turnkey interior solutions for residential and commercial spaces — modular kitchens, premium flooring, smart fittings, and every detail refined to perfection.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">05</div>
+      <div class="service-name">Structural Renovation</div>
+      <div class="service-desc">Strengthening and modernising existing buildings without full demolition. Our engineers assess and execute structural upgrades that safely extend building life.</div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">06</div>
+      <div class="service-name">Commercial Development</div>
+      <div class="service-desc">Office spaces, retail units, and mixed-use developments designed for functionality and lasting value — built for businesses that mean business.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">Our Work</p>
+  <div class="gold-line"></div>
+  <h2 class="section-title">Early <em>Projects</em></h2>
+  <p class="section-body" style="margin-bottom:3rem;">
+    Every great journey begins somewhere. Here are the first projects that define who we are and what we stand for.
+  </p>
+  <div class="projects-grid">
+    <div class="project-card p1 featured">
+      <div class="project-card-bg"></div>
+      <div class="project-pattern"></div>
+      <div class="project-overlay">
+        <div class="project-badge">Completed</div>
+        <p class="project-type">Residential Construction</p>
+        <p class="project-name">Gomes Residency — Borivali</p>
+        <p class="project-loc">Mumbai · 2BHK Independent Units</p>
+        <p class="project-arrow">View Project →</p>
+      </div>
+    </div>
+    <div class="project-card p2">
+      <div class="project-card-bg"></div>
+      <div class="project-pattern"></div>
+      <div class="project-overlay">
+        <div class="project-badge">Completed</div>
+        <p class="project-type">Renovation</p>
+        <p class="project-name">Private Villa Restoration</p>
+        <p class="project-loc">Kandivali West</p>
+        <p class="project-arrow">View Project →</p>
+      </div>
+    </div>
+    <div class="project-card p3">
+      <div class="project-card-bg"></div>
+      <div class="project-pattern"></div>
+      <div class="project-overlay">
+        <div class="project-badge">Ongoing</div>
+        <p class="project-type">Interior Fit-Out</p>
+        <p class="project-name">Commercial Office Space</p>
+        <p class="project-loc">Andheri West</p>
+        <p class="project-arrow">View Project →</p>
+      </div>
+    </div>
+    <div class="project-card p4">
+      <div class="project-card-bg"></div>
+      <div class="project-pattern"></div>
+      <div class="project-overlay">
+        <div class="project-badge">Ongoing</div>
+        <p class="project-type">Redevelopment</p>
+        <p class="project-name">Society Redevelopment</p>
+        <p class="project-loc">Malad East · Under Planning</p>
+        <p class="project-arrow">View Project →</p>
+      </div>
+    </div>
+    <div class="project-card p5">
+      <div class="project-card-bg"></div>
+      <div class="project-pattern"></div>
+      <div class="project-overlay">
+        <div class="project-badge">Completed</div>
+        <p class="project-type">Structural Renovation</p>
+        <p class="project-name">Building Restoration</p>
+        <p class="project-loc">Goregaon</p>
+        <p class="project-arrow">View Project →</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISION STRIP -->
+<section class="vision-strip">
+  <p class="vision-quote">
+    We may be new to the skyline — but our foundations are built on decades of knowledge, 
+    an unshakeable work ethic, and a promise to every client: we will always deliver.
+  </p>
+  <p class="vision-author">— Ralston Gomes, Founder</p>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div>
+      <p class="section-label">Get In Touch</p>
+      <div class="gold-line"></div>
+      <h2 class="section-title">Let's Build<br><em>Something Together.</em></h2>
+      <p class="section-body" style="margin-bottom:3rem;">
+        Whether you're a housing society exploring redevelopment, or you have a new construction project in mind — 
+        Ralston and the team are ready to listen.
+      </p>
+      <div class="contact-info">
+        <div>
+          <div class="contact-info-label">Location</div>
+          <div class="contact-info-value">Mumbai, Maharashtra, India</div>
+        </div>
+        <div>
+          <div class="contact-info-label">Email</div>
+          <div class="contact-info-value">info@gomesdevelopers.com</div>
+        </div>
+        <div>
+          <div class="contact-info-label">Phone</div>
+          <div class="contact-info-value">+91 98XXX XXXXX</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <form class="contact-form" onsubmit="return false;">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input class="form-input" type="text" placeholder="Your name"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            <input class="form-input" type="tel" placeholder="+91"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" placeholder="your@email.com"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">I'm Interested In</label>
+          <select class="form-select">
+            <option value="">Select a service</option>
+            <option>Society Redevelopment</option>
+            <option>New Construction</option>
+            <option>Project Consultation</option>
+            <option>Interior Fit-Outs</option>
+            <option>Structural Renovation</option>
+            <option>Commercial Development</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" placeholder="Tell us about your project…"></textarea>
+        </div>
+        <button class="btn-primary" style="align-self:flex-start; margin-top:0.5rem;" type="submit">Send Enquiry</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Gomes Developer's</div>
+  <p class="footer-copy">© 2025 Gomes Developer's. All rights reserved.</p>
+  <ul class="footer-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+</script>
+</body>
+</html>
